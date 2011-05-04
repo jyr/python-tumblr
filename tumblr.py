@@ -28,9 +28,19 @@ from poster.encode import multipart_encode
 from poster.streaminghttp import register_openers
 
 import base64
-import json
 import logging
 import re
+try:
+    import simplejson as json
+except ImportError:
+    try:
+        import json
+    except ImportError:
+        try:
+            # Google Appengine offers simplejson via django
+            from django.utils import simplejson as json
+        except ImportError:
+            raise ImportError('Could not find json implementation')
 
 GENERATOR = 'python-tumblr'
 PAGESIZE = 50
